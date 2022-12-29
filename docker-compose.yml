@@ -1,0 +1,22 @@
+version: '2.0'
+services:
+  app:
+    image: sadanchandra99/electricity-billing-system:bill-postgres-2.1
+    build: 
+      context: .
+    ports:
+      - "8083:8083"
+    container_name: Bill-Container
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Chenna@123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  db:
+    image: postgres
+    container_name: postgresContainer
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Chenna@123

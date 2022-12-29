@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bill-deployment
+  labels:
+    app: bill
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bill
+    
+  template:
+    metadata:
+      labels:
+        app: bill
+    spec:
+      containers:
+        - name: bill-container
+          image: sadanchandra99/electricity:bill-3.0
+          
+          env:
+            - name: MYSQL_ROOT_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: host
+            
+            
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: username
+            
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: password
+
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: name
+          ports:
+          - containerPort: 8080
+
+
+---
+
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: bill-service
+spec:
+  selector: 
+    app: bill
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
+  type: NodePort

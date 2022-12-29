@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-configmap
+  labels:
+    app: mysql-db
+data:
+  host: mysql-service
+  username: root
+  password: Chenna@123
+  name: testing
+  MYSQL_PASSWORD: Chenna@123
